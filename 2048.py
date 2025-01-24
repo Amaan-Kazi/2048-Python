@@ -5,14 +5,29 @@ pygame.init()
 game = Board()
 
 # Constants
-SCREEN_SIZE = 800
+SCREEN_SIZE = 600
 CELL_SIZE = SCREEN_SIZE // len(game.grid)
 BACKGROUND_COLOR = (165, 148, 129)
 TEXT_COLORS = { "white": (251, 246, 242), "black": (92, 84, 75)}
 COLORS = {
-  None: ((191, 176, 161), TEXT_COLORS["black"]),
-  2:    ((238, 229, 218), TEXT_COLORS["black"]),
-  4:    ((237, 226, 201), TEXT_COLORS["black"])
+  None:   ((191, 176, 161), TEXT_COLORS["black"]),
+  2:      ((238, 229, 218), TEXT_COLORS["black"]),
+  4:      ((237, 226, 201), TEXT_COLORS["black"]),
+  8:      ((242, 177, 121), TEXT_COLORS["white"]),
+  16:     ((245, 149, 100), TEXT_COLORS["white"]),
+  32:     ((241, 126, 94),  TEXT_COLORS["white"]),
+  64:     ((247, 94, 62),   TEXT_COLORS["white"]),
+  128:    ((235, 206, 114), TEXT_COLORS["white"]),
+  256:    ((237, 204, 97),  TEXT_COLORS["white"]),
+  512:    ((236, 199, 84),  TEXT_COLORS["white"]),
+  1024:   ((235, 195, 64),  TEXT_COLORS["white"]),
+  2048:   ((235, 193, 45),  TEXT_COLORS["white"]),
+  4096:   ((239, 103, 107), TEXT_COLORS["white"]),
+  8192:   ((238, 78, 90),   TEXT_COLORS["white"]),
+  16384:  ((225, 67, 56),   TEXT_COLORS["white"]),
+  32768:  ((113, 180, 214), TEXT_COLORS["white"]),
+  65536:  ((92, 160, 223),  TEXT_COLORS["white"]),
+  131072: ((0, 123, 190),   TEXT_COLORS["white"]),
 }
 PADDING = 10
 
@@ -25,7 +40,11 @@ running = True
 while running:
   for event in pygame.event.get():
     if event.type == pygame.QUIT: running = False
-    if event.type == pygame.KEYDOWN: game.spawn()
+    if event.type == pygame.KEYDOWN:
+      if   (event.key in (pygame.K_UP,    pygame.K_w)): game.up()
+      elif (event.key in (pygame.K_LEFT,  pygame.K_a)): game.left()
+      elif (event.key in (pygame.K_DOWN,  pygame.K_s)): game.down()
+      elif (event.key in (pygame.K_RIGHT, pygame.K_d)): game.right()
 
   screen.fill(BACKGROUND_COLOR)
   
