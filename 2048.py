@@ -9,32 +9,31 @@ SCREEN_SIZE = 600
 CELL_SIZE = SCREEN_SIZE // len(game.grid)
 BACKGROUND_COLOR = (165, 148, 129)
 TEXT_COLORS = { "white": (251, 246, 242), "black": (92, 84, 75)}
-COLORS = {
-  None:   ((191, 176, 161), TEXT_COLORS["black"]),
-  2:      ((238, 229, 218), TEXT_COLORS["black"]),
-  4:      ((237, 226, 201), TEXT_COLORS["black"]),
-  8:      ((242, 177, 121), TEXT_COLORS["white"]),
-  16:     ((245, 149, 100), TEXT_COLORS["white"]),
-  32:     ((241, 126, 94),  TEXT_COLORS["white"]),
-  64:     ((247, 94, 62),   TEXT_COLORS["white"]),
-  128:    ((235, 206, 114), TEXT_COLORS["white"]),
-  256:    ((237, 204, 97),  TEXT_COLORS["white"]),
-  512:    ((236, 199, 84),  TEXT_COLORS["white"]),
-  1024:   ((235, 195, 64),  TEXT_COLORS["white"]),
-  2048:   ((235, 193, 45),  TEXT_COLORS["white"]),
-  4096:   ((239, 103, 107), TEXT_COLORS["white"]),
-  8192:   ((238, 78, 90),   TEXT_COLORS["white"]),
-  16384:  ((225, 67, 56),   TEXT_COLORS["white"]),
-  32768:  ((113, 180, 214), TEXT_COLORS["white"]),
-  65536:  ((92, 160, 223),  TEXT_COLORS["white"]),
-  131072: ((0, 123, 190),   TEXT_COLORS["white"]),
+STYLES = {
+  None:   ((191, 176, 161), TEXT_COLORS["black"], pygame.font.Font(None, int(CELL_SIZE * 0.75))), 
+  2:      ((238, 229, 218), TEXT_COLORS["black"], pygame.font.Font(None, int(CELL_SIZE * 0.75))),
+  4:      ((237, 226, 201), TEXT_COLORS["black"], pygame.font.Font(None, int(CELL_SIZE * 0.75))),
+  8:      ((242, 177, 121), TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.75))),
+  16:     ((245, 149, 100), TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.75))),
+  32:     ((241, 126, 94),  TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.75))),
+  64:     ((247, 94, 62),   TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.75))),
+  128:    ((235, 206, 114), TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.65))),
+  256:    ((237, 204, 97),  TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.65))),
+  512:    ((236, 199, 84),  TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.65))),
+  1024:   ((235, 195, 64),  TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.45))),
+  2048:   ((235, 193, 45),  TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.45))),
+  4096:   ((239, 103, 107), TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.45))),
+  8192:   ((238, 78, 90),   TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.45))),
+  16384:  ((225, 67, 56),   TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.35))),
+  32768:  ((113, 180, 214), TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.35))),
+  65536:  ((92, 160, 223),  TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.35))),
+  131072: ((0, 123, 190),   TEXT_COLORS["white"], pygame.font.Font(None, int(CELL_SIZE * 0.30))),
 }
 PADDING = 10
 
 # Initialize Screen
 screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
 pygame.display.set_caption("2048")
-font = pygame.font.Font(None, int(CELL_SIZE * 0.75))
 
 running = True
 while running:
@@ -51,7 +50,7 @@ while running:
   for row in range(len(game.grid)):
     for col in range(len(game.grid[row])):
       value = game.grid[row][col]
-      color, text_color = COLORS[value]
+      color, text_color, font = STYLES[value]
 
       x = col * CELL_SIZE + PADDING
       y = row * CELL_SIZE + PADDING
