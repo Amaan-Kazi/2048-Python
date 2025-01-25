@@ -1,3 +1,4 @@
+import time
 import pygame
 from board import Board
 
@@ -35,6 +36,11 @@ PADDING = 10
 screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
 pygame.display.set_caption("2048")
 
+# Animation Settings
+SPAWN_ANIMATION_TIME = 0.2  # seconds
+last_spawn_time = time.time()
+spawn_progress = {}
+
 running = True
 while running:
   for event in pygame.event.get():
@@ -44,6 +50,11 @@ while running:
       elif (event.key in (pygame.K_LEFT,  pygame.K_a)): game.left()
       elif (event.key in (pygame.K_DOWN,  pygame.K_s)): game.down()
       elif (event.key in (pygame.K_RIGHT, pygame.K_d)): game.right()
+
+      # Start animation for new spawns
+      current_time = time.time()
+      for spawn in game.spawns:
+        spawn_progress[spawn] = current_time
 
   screen.fill(BACKGROUND_COLOR)
   
@@ -56,6 +67,27 @@ while running:
       y = row * CELL_SIZE + PADDING
       w = CELL_SIZE - 2 * PADDING
       h = CELL_SIZE - 2 * PADDING
+
+      # Animate spawn tiles
+      if (row, col, value) in spawn_progress:
+        spawn_time = spawn_progress[(row, col, value)]
+        elapsed = time.time() - spawn_time
+
+        pygame.draw.rect(screen, (191, 176, 161), (x, y, w, h), border_radius=4)
+
+        if elapsed < SPAWN_ANIMATION_TIME:
+          scale = elapsed / SPAWN_ANIMATION_TIME  # Scale from 0 to 1
+          scale = max(0.5, scale)  # Start at 50% size
+          offset = (1 - scale) * CELL_SIZE / 2
+          
+          x += offset
+          y += offset
+          w = scale * (CELL_SIZE - 2 * PADDING)
+          h = scale * (CELL_SIZE - 2 * PADDING)
+        else:
+          # Animation complete, remove from progress tracker
+          game.spawns = []
+          del spawn_progress[(row, col, value)]
 
       pygame.draw.rect(screen, color, (x, y, w, h), border_radius=4)
 

@@ -9,6 +9,11 @@ class Board:
       [None, None, None, None],
       [None, None, None, None],
     ]
+
+    self.merges = []
+    self.slides = []
+    self.spawns = []
+
     self.spawn()
 
   def spawn(self: "Board") -> bool:
@@ -22,6 +27,7 @@ class Board:
     if emptyCells:
       row, col = random.choice(emptyCells)
       self.grid[row][col] = 2 if random.random() < 0.9 else 4
+      self.spawns.append((row, col, self.grid[row][col]))
       return True
     else: return False
 
